@@ -47,15 +47,17 @@
 }
 
 :root {
-  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
-  --heading: Georgia, "Times New Roman", serif;
+  --body: "Times New Roman", Times, serif;
+  --heading: "Times New Roman", Times, serif;
+
+  --scrim: 18, 32, 21;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --dur: 300ms;
 
   color: var(--text);
   background: var(--bg);
-  font-family: var(--sans);
+  font-family: var(--body);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -77,6 +79,16 @@
   justify-content: center;
   min-height: 100dvh;
   scroll-snap-align: start;
+}
+
+/* Darkens a photo or video background so the text over it stays readable. */
+.scrim {
+  background-image: linear-gradient(
+    to top,
+    rgba(var(--scrim), 0.8),
+    rgba(var(--scrim), 0.5) 45%,
+    rgba(var(--scrim), 0.65)
+  );
 }
 
 h1,

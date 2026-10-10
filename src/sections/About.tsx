@@ -1,5 +1,7 @@
 import { Section } from "../components/Section";
 import { Reveal } from "../components/Reveal";
+import { SocialLinks } from "../components/SocialLinks";
+import portrait from "../assets/ashley-portrait.webp";
 
 export function About() {
   return (
@@ -12,16 +14,26 @@ export function About() {
           <Reveal delay={80}>
             {/* TODO: short blurb about the farm and its creator */}
             <p className="max-w-prose text-lg">
-              TODO: a short blurb about the farm and the person who started it.
-              Two or three sentences fit this space well.
+              Welcome Home Farm was realized through the mind and body of Ashley
+              Harris. It serves as a neighborhood farm providing U-pick, CSA
+              (Community Supported Agriculture), and educational support to the
+              community.
             </p>
+          </Reveal>
+          <Reveal delay={140} className="empty:hidden">
+            <SocialLinks label="See more of Ashley and the farm" />
           </Reveal>
         </div>
 
         <Reveal delay={160}>
-          {/* TODO: professional photo or video goes here */}
-          <div className="flex aspect-video w-full items-center justify-center rounded-2xl border border-dashed border-[var(--accent-border)] bg-[var(--accent-bg)] text-sm text-[var(--muted)]">
-            Photo or video
+          <div className="mx-auto aspect-3/4 w-full max-w-sm overflow-hidden rounded-2xl ring-1 ring-[var(--border)] lg:max-w-md">
+            <img
+              src={portrait}
+              alt="Ashley Harris smiling while harvesting in the garden"
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover object-[center_20%]"
+            />
           </div>
         </Reveal>
       </div>

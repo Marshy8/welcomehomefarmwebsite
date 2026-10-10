@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Section } from "../components/Section";
 import { Reveal } from "../components/Reveal";
+import { SocialLinks } from "../components/SocialLinks";
 import { isConnected, sendContactMessage } from "../lib/farmApi";
 
 type Status = "idle" | "sending" | "sent" | "error" | "not-connected";
@@ -100,6 +101,8 @@ export function Contact() {
             </div>
           </form>
         </Reveal>
+
+        <SocialLinks label="Follow the farm" className="pt-4" />
 
         <p className="pt-8 text-sm text-[var(--muted)]">
           © {new Date().getFullYear()} Welcome Home Farm · Bentonville, Arkansas

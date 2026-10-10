@@ -17,6 +17,14 @@ export interface Offering {
   note?: string;
 }
 
+export type SocialId = "instagram" | "facebook";
+
+export interface SocialLink {
+  id: SocialId;
+  label: string;
+  url: string | null;
+}
+
 /* Contract with the farm's Apps Script web app. A GET returns FarmStatus. */
 
 export interface CsaSeason {
