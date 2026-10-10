@@ -26,7 +26,9 @@ Recommend the simplest one that does the job. Each step down this list adds some
 
 3. **Read the data and render it in the site's own design.** Fetch events from a public calendar through the Calendar API with a restricted browser key, or read a published Google Sheet for things staff change often, such as hours, what is in season, or prices. This gives the best result for visitors, since the content looks like part of the site and loads light. It needs loading, empty and error states, and a sensible fallback when the request fails or the quota runs out. Never leave a blank section; fall back to a link.
 
-4. **Custom write paths.** Google Forms, linked or embedded, is the supported way to collect input. Two alternatives exist and both need Buck's explicit agreement before you build them. Posting from a custom form to a Google Form's response endpoint is unofficial, gives the page no confirmation that it worked, and breaks silently if the form is edited. A Google Apps Script web app is in effect a small backend that the farm's Google account would own and someone would have to maintain.
+4. **Apps Script.** A Google Apps Script web app is in effect a small backend that the farm's Google account owns. Buck has agreed to one script as the glue for this site; the "Google integration" section of `CLAUDE.md` describes what it does and the contract the site expects. Extend that one script before adding a second endpoint, and keep its source in the repo so there is a record of what is deployed. A code change takes effect only when the owner's account publishes a new version of the existing deployment, so say when a change needs that.
+
+Do not post from a custom form to a Google Form's response endpoint. It is unofficial, gives the page no confirmation that it worked, and breaks silently if the form is edited.
 
 ## Check Google's current documentation
 

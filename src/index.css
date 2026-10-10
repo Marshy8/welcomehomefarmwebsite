@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* TODO: placeholder palette and fonts for the rough draft. Buck decides the
+   real ones. A tone class redefines the colour tokens for everything inside it,
+   so components read the same variables on any background. */
+:root,
+.tone-cream {
+  --bg: #f7f2e7;
+  --surface: #fffdf7;
+  --text: #3a3529;
+  --text-h: #1f2a1c;
+  --muted: #6b6454;
+  --border: rgba(58, 53, 41, 0.18);
+
+  --accent: #3e6b3a;
+  --accent-ink: #fbf8f0;
+  --accent-bg: rgba(62, 107, 58, 0.12);
+  --accent-border: rgba(62, 107, 58, 0.5);
+}
+
+.tone-sage {
+  --bg: #e3e8d5;
+  --surface: #f8f9f1;
+  --text: #3a3529;
+  --text-h: #1f2a1c;
+  --muted: #5f5a4b;
+  --border: rgba(58, 53, 41, 0.2);
+
+  --accent: #355e32;
+  --accent-ink: #fbf8f0;
+  --accent-bg: rgba(53, 94, 50, 0.14);
+  --accent-border: rgba(53, 94, 50, 0.5);
+}
+
+.tone-forest {
+  --bg: #24402a;
+  --surface: #2e4f35;
+  --text: #e4eadb;
+  --text-h: #fbf8f0;
+  --muted: #b6c5b0;
+  --border: rgba(228, 234, 219, 0.24);
+
+  --accent: #e9c46a;
+  --accent-ink: #24301c;
+  --accent-bg: rgba(233, 196, 106, 0.16);
+  --accent-border: rgba(233, 196, 106, 0.55);
+}
+
+:root {
+  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: Georgia, "Times New Roman", serif;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 300ms;
+
+  color: var(--text);
+  background: var(--bg);
+  font-family: var(--sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Snap gently to the nearest section, with a mouse or trackpad only. On touch
+   screens sections are often taller than the screen and scroll freely. */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+}
+
+.section-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100dvh;
+  scroll-snap-align: start;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--heading);
+  color: var(--text-h);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 600ms var(--ease),
+      transform 600ms var(--ease);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
