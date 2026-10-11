@@ -3,6 +3,7 @@ import { Section } from "../components/Section";
 import { Reveal } from "../components/Reveal";
 import { SocialLinks } from "../components/SocialLinks";
 import { isConnected, sendContactMessage } from "../lib/farmApi";
+import contactPhoto from "../assets/contact.webp";
 
 type Status = "idle" | "sending" | "sent" | "error" | "not-connected";
 
@@ -45,7 +46,22 @@ export function Contact() {
   };
 
   return (
-    <Section id="contact" tone="forest">
+    <Section
+      id="contact"
+      tone="forest"
+      background={
+        <>
+          <img
+            src={contactPhoto}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="scrim-heavy absolute inset-0" />
+        </>
+      }
+    >
       <div className="mx-auto flex max-w-2xl flex-col gap-6 sm:gap-8">
         <Reveal>
           <h2 className="text-[clamp(1.75rem,4vw,2.75rem)]">Get in touch</h2>

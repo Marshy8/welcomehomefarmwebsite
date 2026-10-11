@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Full-size source footage; the compressed copies in src/assets are what ships.
+originals

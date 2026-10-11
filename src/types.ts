@@ -25,6 +25,11 @@ export interface SocialLink {
   url: string | null;
 }
 
+export interface VideoClip {
+  webm?: string;
+  mp4: string;
+}
+
 /* Contract with the farm's Apps Script web app. A GET returns FarmStatus. */
 
 export interface CsaSeason {

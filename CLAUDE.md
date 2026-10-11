@@ -41,7 +41,7 @@ The engage cards so far:
 Scrolling behaviour:
 
 - The document itself scrolls; there is no inner scroll container. This lets phone browsers collapse their toolbars and lets full-page screenshots work. It differs from `../portfolio_v2`, which scrolls inside `<main>`.
-- Each section is at least one screen tall (`min-height: 100dvh`) and may grow taller.
+- Each section is at least one screen tall (`min-height: 100svh`) and may grow taller. It is `svh` and not `dvh` because the document scrolls: a phone's toolbar hides and shows mid-scroll, `dvh` follows it, and every section and background would resize with a visible jolt.
 - With a mouse or trackpad the page snaps gently to the nearest section (`scroll-snap-type: y proximity`). On touch screens there is no snapping, because the cards, calendar and form stack taller than a phone screen.
 
 Still a rough draft, and Buck decides all of it: the palette and fonts are placeholders, section backgrounds are solid colours until the real photos and video go in, and the copy is placeholder text.
@@ -90,9 +90,9 @@ Rules for this code:
 
 Buck's portfolio uses the same stack and is the model for conventions here. Read the relevant file there before introducing a new pattern.
 
-Shared with it: the folder structure, content as data, CSS custom property tokens, the `Section` and `Reveal` components, the header that tracks the active section, animation inside `@media (prefers-reduced-motion: no-preference)`, `dvh` heights, `clamp()` type, and the deploy workflow. When photos arrive, follow its image loading: the hero image is `loading="eager"` with `fetchPriority="high"` and everything else is lazy.
+Shared with it: the folder structure, content as data, CSS custom property tokens, the `Section` and `Reveal` components, the header that tracks the active section, animation inside `@media (prefers-reduced-motion: no-preference)`, `clamp()` type, and the deploy workflow. When photos arrive, follow its image loading: the hero image is `loading="eager"` with `fetchPriority="high"` and everything else is lazy.
 
-Not shared: its dark navy look, its inner scroll container, and its fixed-height sections.
+Not shared: its dark navy look, its inner scroll container, its fixed-height sections, and its `dvh` heights (see "Scrolling behaviour").
 
 ## Constraints from being a static site on GitHub Pages
 

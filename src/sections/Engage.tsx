@@ -5,6 +5,7 @@ import { SampleBadge } from "../components/SampleBadge";
 import { OFFERINGS } from "../data/offerings";
 import { OFFERING_URLS } from "../data/integrations";
 import type { CsaSeason, FarmStatusState } from "../types";
+import engagePhoto from "../assets/engage.webp";
 
 interface EngageProps {
   farm: FarmStatusState;
@@ -75,7 +76,22 @@ export function Engage({ farm }: EngageProps) {
     farm.phase === "ready" && !farm.status.csa.seasons.some(isAvailable);
 
   return (
-    <Section id="engage" tone="sage">
+    <Section
+      id="engage"
+      tone="forest"
+      background={
+        <>
+          <img
+            src={engagePhoto}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="scrim absolute inset-0" />
+        </>
+      }
+    >
       <div className="flex flex-col gap-6 sm:gap-8">
         <Reveal>
           <div className="flex flex-wrap items-center gap-4">

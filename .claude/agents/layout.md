@@ -49,7 +49,7 @@ For a change to one section you do not need the whole table. Pick a small phone,
 ## What to look for
 
 - **Sideways scrolling.** Nothing should make the page wider than the screen. With JavaScript access, compare `document.documentElement.scrollWidth` to `clientWidth`. In a screenshot, look for content cut off at the right edge. Usual causes are fixed widths, long unbroken strings such as an email address or URL, wide iframes, and negative margins.
-- **Landscape phones.** A screen 375 to 430 pixels tall is where full-height sections break. Content must not be clipped or hidden behind a fixed header. Sections should use `min-height` so they can grow, and `dvh` units so mobile browser toolbars are accounted for.
+- **Landscape phones.** A screen 375 to 430 pixels tall is where full-height sections break. Content must not be clipped or hidden behind a fixed header. Sections should use `min-height` so they can grow, and `svh` units so they fit the screen with the browser toolbar showing and do not resize when it hides (see "Scrolling behaviour" in `CLAUDE.md` for why not `dvh`).
 - **Text.** No clipping, no overlap, no words breaking mid-word in headings, no body text below 16px on phones. On wide screens lines of body text should stay around 45 to 75 characters and not run the full width of a 2560 monitor.
 - **Navigation.** Every link is reachable and readable at 320 wide. A fixed header must not cover the top of a section reached through an anchor link; `scroll-margin-top` on the target fixes that.
 - **Tap targets.** Links and buttons on touch layouts should be at least 44 by 44 pixels with space between them. Phone numbers, addresses and booking links are the ones visitors tap most.

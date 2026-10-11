@@ -77,7 +77,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 100dvh;
+  /* svh and not dvh: the document scrolls, so a phone's toolbar hides and
+     shows mid-scroll. dvh follows it and would resize every section, and
+     re-crop every background, under the visitor's finger. */
+  min-height: 100svh;
   scroll-snap-align: start;
 }
 
@@ -88,6 +91,17 @@
     rgba(var(--scrim), 0.8),
     rgba(var(--scrim), 0.5) 45%,
     rgba(var(--scrim), 0.65)
+  );
+}
+
+/* A darker scrim for bright photos, where the standard one leaves pale areas
+   behind the text. */
+.scrim-heavy {
+  background-image: linear-gradient(
+    to top,
+    rgba(var(--scrim), 0.88),
+    rgba(var(--scrim), 0.72) 45%,
+    rgba(var(--scrim), 0.8)
   );
 }
 

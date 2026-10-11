@@ -1,9 +1,23 @@
 import { useState } from "react";
 import { Section } from "../components/Section";
 import { Reveal } from "../components/Reveal";
-import heroPoster from "../assets/hero-poster.webp";
-import heroMp4 from "../assets/hero-loop.mp4";
-import heroWebm from "../assets/hero-loop.webm";
+import { VideoCycle } from "../components/VideoCycle";
+import type { VideoClip } from "../types";
+import heroPoster from "../assets/hero-poster-0.webp";
+import loop0Mp4 from "../assets/hero-loop-0.mp4";
+import loop0Webm from "../assets/hero-loop-0.webm";
+import loop1Mp4 from "../assets/hero-loop-1.mp4";
+import loop1Webm from "../assets/hero-loop-1.webm";
+import loop2Mp4 from "../assets/hero-loop-2.mp4";
+import loop2Webm from "../assets/hero-loop-2.webm";
+
+/* Played in this order, then round again. The poster is the first frame of
+   the first clip. */
+const HERO_CLIPS: VideoClip[] = [
+  { webm: loop0Webm, mp4: loop0Mp4 },
+  { webm: loop1Webm, mp4: loop1Mp4 },
+  { webm: loop2Webm, mp4: loop2Mp4 },
+];
 
 export function Hero() {
   const [reducedMotion] = useState(
@@ -24,20 +38,9 @@ export function Hero() {
             decoding="async"
             className="absolute inset-0 h-full w-full object-cover"
           />
-          {/* The still above shows until the video's first frame, and on its
-              own for visitors who ask for reduced motion. */}
-          {!reducedMotion && (
-            <video
-              className="absolute inset-0 h-full w-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-            >
-              <source src={heroWebm} type="video/webm" />
-              <source src={heroMp4} type="video/mp4" />
-            </video>
-          )}
+          {/* The still above shows until the first clip's first frame, and on
+              its own for visitors who ask for reduced motion. */}
+          {!reducedMotion && <VideoCycle clips={HERO_CLIPS} />}
           <div className="scrim absolute inset-0" />
         </>
       }
