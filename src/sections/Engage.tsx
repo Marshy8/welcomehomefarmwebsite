@@ -48,11 +48,7 @@ function CsaSeasons({ farm }: EngageProps) {
                 {season.name}
               </span>
               <span className={available ? "" : "text-[var(--muted)]"}>
-                {!season.open
-                  ? "Closed"
-                  : left === 0
-                    ? "Full"
-                    : `${left} of ${season.capacity} left`}
+                {!season.open ? "Closed" : left === 0 ? "Full" : `${left} left`}
               </span>
             </div>
             <div

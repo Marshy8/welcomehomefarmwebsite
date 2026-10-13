@@ -77,7 +77,13 @@ How the pieces fit:
 - **Calendar.** Two calendars. A public events calendar feeds the site. Bookings that carry customer names stay on a private one.
 - **Privacy.** The response sheet is never shared or published. Only counts leave it, through the script.
 
-Status: the site side is built against this contract and the Apps Script itself is not written yet. While `API_URL` is `null` the site shows sample data, marked as such on the page, and the contact form reports that it is not connected.
+Status: the script's source is `apps-script/Code.gs`, with its manifest beside it, and that file is the record of what is deployed.
+
+- Written: the contact `POST`, and the CSA half. The CSA half is the `GET`, the sync that runs on each signup and on each change to the spreadsheet, and `setUpMockCsa`, which creates a test sign-up form and a spreadsheet with sample seasons in whichever Google account runs it. `tearDownCsa` disconnects them again.
+- Not written: events. A `GET` always returns an empty `events` list, so with `API_URL` set the calendar section shows its "nothing on the calendar" line.
+- The CSA half has been run only against stand-ins for Google's services, not yet in a Google account.
+- A `GET` that cannot build the whole status (the CSA is not set up, for one) answers with a line of plain text and not JSON. The site fails to parse it and shows its fallback, which is the intent: never return JSON of another shape.
+- While `API_URL` is `null` the site shows sample data, marked as such on the page, and the contact form reports that it is not connected.
 
 Rules for this code:
 
