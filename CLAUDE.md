@@ -7,14 +7,14 @@ A landing page for Welcome Home Farm in Bentonville, Arkansas. Buck Harris build
 - Vite, React 19, TypeScript, npm.
 - Tailwind CSS v4 through the `@tailwindcss/vite` plugin. There is no `tailwind.config.js`; theme values live in CSS.
 - No backend that Buck hosts. The site is static files; everything dynamic comes from the farm's Google account (see "Google integration").
-- Hosted on GitHub Pages, deployed by a GitHub Actions workflow on push to `main`. The repo is `Marshy8/welcomehomefarmwebsite`.
+- Hosted on GitHub Pages at `https://welcomehomefarm.org/`, deployed by a GitHub Actions workflow on push to `main`. The repo is `Marshy8/welcomehomefarmwebsite`.
 
 ## Commands
 
 ```
-npm run dev       # dev server, http://localhost:5173/welcomehomefarmwebsite/
+npm run dev       # dev server, http://localhost:5173/
 npm run build     # tsc -b && vite build, output in dist/
-npm run preview   # serve the production build, http://localhost:4173/welcomehomefarmwebsite/
+npm run preview   # serve the production build, http://localhost:4173/
 npm run lint      # eslint
 ```
 
@@ -103,7 +103,8 @@ Not shared: its dark navy look, its inner scroll container, its fixed-height sec
 ## Constraints from being a static site on GitHub Pages
 
 - **Everything shipped is public.** `VITE_*` variables are inlined into the bundle, and so is anything a GitHub Actions secret injects at build time. No secrets, tokens or private keys belong in this project. The Apps Script URL is public by design and is not a secret.
-- **Base path.** The site is served from `https://marshy8.github.io/welcomehomefarmwebsite/`, so `vite.config.ts` sets `base: "/welcomehomefarmwebsite/"` and root-absolute URLs like `/favicon.svg` will 404. Use `import.meta.env.BASE_URL` or imported assets over hard-coded paths. If the site moves to a custom domain (a `public/CNAME` file, as in the portfolio) the base becomes `/`.
+- **Base path.** The site's address is `https://welcomehomefarm.org/`. `vite.config.ts` sets `base: "./"`, a relative base, so the same build also works at `https://marshy8.github.io/welcomehomefarmwebsite/` while the domain is being connected. Until the domain is live, root-absolute URLs like `/favicon.svg` will 404 at the old address, so use `import.meta.env.BASE_URL` or imported assets over hard-coded paths. A relative base only works because the site is a single page at the root.
+- **Custom domain.** The domain is switched on in the repo's Settings > Pages, not by a file: Pages ignores `public/CNAME` when the site is deployed by an Actions workflow. The file is kept, as in the portfolio, as the record of the domain.
 - **No server routing.** A deep link to a client-side route returns a 404. Keep this a single page with `#anchor` sections unless Buck asks for routes.
 - **No control over headers.** Caching, compression and redirects cannot be configured, so performance comes from shipping fewer and smaller files.
 

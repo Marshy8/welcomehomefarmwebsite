@@ -4,8 +4,9 @@ import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Served from https://marshy8.github.io/welcomehomefarmwebsite/ on GitHub
-  // Pages. Change to "/" if the site moves to a custom domain (public/CNAME).
-  base: "/welcomehomefarmwebsite/",
+  // Relative, so the same build works at https://welcomehomefarm.org/ and at
+  // https://marshy8.github.io/welcomehomefarmwebsite/ while the domain is being
+  // connected. Safe only because the site is a single page at the root.
+  base: "./",
   plugins: [react(), tailwindcss()],
 });
