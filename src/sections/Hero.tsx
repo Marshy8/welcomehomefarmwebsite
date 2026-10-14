@@ -69,7 +69,7 @@ export function Hero() {
         <Reveal delay={160}>
           {/* TODO: one-line tagline from the farm */}
           <p className="max-w-xl text-lg">
-            U-Pick, CSA, and Education for the community.
+            U-Pick, CSA, and native fruit education for the community.
           </p>
         </Reveal>
         <Reveal delay={240}>
