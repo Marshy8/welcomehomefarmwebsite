@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Section } from "../components/Section";
 import { Reveal } from "../components/Reveal";
 import { VideoCycle } from "../components/VideoCycle";
+import { FARM_ADDRESS, FARM_MAP_URL } from "../data/farm";
 import type { VideoClip } from "../types";
 import heroPoster from "../assets/hero-poster-0.webp";
 import loop0Mp4 from "../assets/hero-loop-0.mp4";
@@ -58,7 +59,14 @@ export function Hero() {
       <div className="flex flex-col items-start gap-6">
         <Reveal>
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-[var(--accent)]">
-            Bentonville, Arkansas
+            <a
+              href={FARM_MAP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline-offset-4 hover:underline"
+            >
+              {FARM_ADDRESS}
+            </a>
           </p>
         </Reveal>
         <Reveal delay={80}>
@@ -67,9 +75,8 @@ export function Hero() {
           </h1>
         </Reveal>
         <Reveal delay={160}>
-          {/* TODO: one-line tagline from the farm */}
           <p className="max-w-xl text-lg">
-            U-Pick, CSA, and native fruit education for the community.
+            Stay close to Home. Veg local. Pick native.
           </p>
         </Reveal>
         <Reveal delay={240}>

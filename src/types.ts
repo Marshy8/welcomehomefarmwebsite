@@ -1,4 +1,10 @@
-export type SectionId = "home" | "about" | "engage" | "calendar" | "contact";
+export type SectionId =
+  | "home"
+  | "about"
+  | "engage"
+  | "calendar"
+  | "gallery"
+  | "contact";
 
 export interface SectionMeta {
   id: SectionId;

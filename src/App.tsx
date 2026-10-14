@@ -3,6 +3,7 @@ import { Hero } from "./sections/Hero";
 import { About } from "./sections/About";
 import { Engage } from "./sections/Engage";
 import { Calendar } from "./sections/Calendar";
+import { Gallery } from "./sections/Gallery";
 import { Contact } from "./sections/Contact";
 import { SECTIONS } from "./data/sections";
 import { useActiveSection } from "./hooks/useActiveSection";
@@ -22,6 +23,7 @@ function App() {
         <About />
         <Engage farm={farm} />
         <Calendar farm={farm} />
+        <Gallery />
         <Contact />
       </main>
     </>
