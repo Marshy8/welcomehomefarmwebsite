@@ -78,7 +78,7 @@ export function Hero() {
               href="#engage"
               className="inline-flex min-h-11 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-medium text-[var(--accent-ink)] transition-transform duration-[var(--dur)] hover:-translate-y-0.5"
             >
-              Get involved
+              Experiences
             </a>
             <a
               href="#calendar"
