@@ -7,13 +7,16 @@ export interface SectionMeta {
 
 export type Tone = "cream" | "sage" | "forest";
 
-export type OfferingId = "csa" | "upick" | "event";
+export type OfferingId = "csa" | "mailing" | "event";
 
 export interface Offering {
   id: OfferingId;
   title: string;
   description: string;
-  cta: string;
+  /** What the offering comes with, listed under the description. */
+  includes?: string[];
+  /** The card's own button. The CSA card has none: each season has its own. */
+  cta?: string;
   note?: string;
 }
 
@@ -32,12 +35,14 @@ export interface VideoClip {
 
 /* Contract with the farm's Apps Script web app. A GET returns FarmStatus. */
 
+export type CsaSeasonId = "spring" | "summer";
+
 export interface CsaSeason {
-  id: string;
-  name: string;
+  id: CsaSeasonId;
+  /** Slots in the season, as the owner set them in its spreadsheet. */
   capacity: number;
+  /** Sign-ups in that spreadsheet. Can pass capacity, as the form stays open. */
   taken: number;
-  open: boolean;
 }
 
 export interface FarmEvent {

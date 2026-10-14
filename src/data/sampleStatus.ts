@@ -20,9 +20,8 @@ export const SAMPLE_STATUS: FarmStatus = {
   updatedAt: new Date().toISOString(),
   csa: {
     seasons: [
-      { id: "sample-1", name: "Sample season 1", capacity: 10, taken: 10, open: true },
-      { id: "sample-2", name: "Sample season 2", capacity: 10, taken: 7, open: true },
-      { id: "sample-3", name: "Sample season 3", capacity: 12, taken: 2, open: true },
+      { id: "spring", capacity: 10, taken: 7 },
+      { id: "summer", capacity: 10, taken: 10 },
     ],
   },
   events: [

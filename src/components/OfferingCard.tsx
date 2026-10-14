@@ -1,27 +1,30 @@
 import type { ReactNode } from "react";
 import type { Offering } from "../types";
+import { CardButton } from "./CardButton";
 
 interface OfferingCardProps {
   offering: Offering;
-  href: string | null;
-  /** Replaces the button label and turns the button off, e.g. "All seasons full". */
-  unavailable?: string;
+  /** Where the card's button goes. Unused by a card with no `cta`. */
+  href?: string | null;
   children?: ReactNode;
 }
 
-const BUTTON =
-  "inline-flex min-h-11 items-center justify-center rounded-full px-6 text-sm font-medium";
-
 export function OfferingCard({
   offering,
-  href,
-  unavailable,
+  href = null,
   children,
 }: OfferingCardProps) {
   return (
     <article className="flex h-full flex-col gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6">
       <h3 className="text-2xl">{offering.title}</h3>
       <p>{offering.description}</p>
+      {offering.includes && (
+        <ul className="flex list-disc flex-col gap-1 pl-5 text-sm marker:text-[var(--accent)]">
+          {offering.includes.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
 
       <div className="flex flex-1 flex-col gap-3">
         {children}
@@ -30,23 +33,9 @@ export function OfferingCard({
         )}
       </div>
 
-      {href && !unavailable ? (
-        <a
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-          className={`${BUTTON} bg-[var(--accent)] text-[var(--accent-ink)] transition-transform duration-[var(--dur)] hover:-translate-y-0.5`}
-        >
-          {offering.cta}
-        </a>
-      ) : (
+      {offering.cta && (
         <div className="flex flex-col gap-1.5">
-          <span
-            aria-disabled="true"
-            className={`${BUTTON} border border-[var(--border)] text-[var(--muted)]`}
-          >
-            {unavailable ?? offering.cta}
-          </span>
+          <CardButton href={href}>{offering.cta}</CardButton>
           {!href && (
             <p className="text-center text-xs text-[var(--muted)]">
               Link not set up yet

@@ -28,15 +28,17 @@ One page that scrolls top to bottom, with a fixed header whose links jump to eac
 | --- | --- | --- |
 | Hero | `home` | Farm name, location, and buttons into the page. |
 | About us | `about` | A short blurb about the farm and its creator, beside professional photo or video. |
-| How to engage | `engage` | Three or more cards, each an action a visitor can take. Each links out to a Google form or booking page and shows live information about it. |
+| How to engage | `engage` | Three cards, each an action a visitor can take. Two open Google forms and one jumps down to the contact section. |
 | Calendar | `calendar` | Upcoming events, mirrored live from the farm's Google Calendar. |
 | Contact | `contact` | A message box that emails the farm owner, with a field for how to reach the sender. |
 
 The engage cards so far:
 
-- **Join the CSA.** The CSA runs in several seasons and a person signs up for the seasons they want. The card lists each season with its remaining slots and stops offering a season that is full.
-- **Schedule U-Pick.** One group per time slot, so a slot that is taken cannot be booked again.
-- **Plan a large event.** A request, not a booking. The form goes to the owner, who approves it and puts it on the calendar.
+- **Join the CSA.** Explains what the CSA is and what a share offers. There are two seasons, spring and summer, and each has its own sign-up form. The card lists both with their remaining slots, read live from that season's spreadsheet, and a sign-up button for each season that is not full.
+- **Join the mailing list.** Links to a Google form that collects the visitor's name and email.
+- **Schedule a group event.** Describes group events, and its button scrolls to the contact section. A request, not a booking: the visitor messages the owner, who arranges it from there.
+
+The owner settled on these three. U-Pick booking is not on the site.
 
 Scrolling behaviour:
 
@@ -61,33 +63,32 @@ Design tokens are CSS custom properties in `src/index.css`, used in Tailwind as 
 
 The requirement is set-and-forget: the farm owner sets things up once, then runs the farm from Google Calendar, Forms and Sheets, and the site follows without a redeploy.
 
-The glue is **one Google Apps Script project in the farm's Google account**, published once as a web app. Apps Script is JavaScript that runs on Google's servers as the account that owns it. The farm is expected to be on a paid Google Workspace plan. The site knows a single URL, `API_URL` in `src/data/integrations.ts`.
+The glue is **one Google Apps Script project in the farm's Google account**, published once as a web app. Buck asked for it to stay small and has cut it back more than once: it sends the contact email, and for the status `GET` it reads the CSA numbers and the public events. It must not create or change any spreadsheet, form or calendar, and it has no triggers. Do not add set-up helpers, form syncing, or anything the owner can do by hand in Google's own tools. Apps Script is JavaScript that runs on Google's servers as the account that owns it. The farm is expected to be on a paid Google Workspace plan. The site knows a single URL, `API_URL` in `src/data/integrations.ts`.
 
 What the script does:
 
-- **Answers `GET`** with the farm's live status as JSON: CSA seasons with capacity and signups taken, and upcoming events from the public calendar. `FarmStatus` in `src/types.ts` is the contract.
+- **Answers `GET`** with the farm's live status as JSON: each CSA season's slots and how many are taken, and upcoming events from the public calendar. `FarmStatus` in `src/types.ts` is the contract.
 - **Answers `POST`** with a contact message by emailing the owner. The recipient is fixed inside the script so the endpoint cannot send mail anywhere else. `sendContactMessage` in `src/lib/farmApi.ts` is the contract.
-- **Runs when the CSA form is submitted**, and removes a season from the form's choices once it is full, so a direct link to the form cannot oversell it either.
 
 How the pieces fit:
 
-- **CSA.** A Google Form writes to a response sheet. A settings tab in that spreadsheet has one row per season: name, capacity, and whether it is open. The script counts signups per season. Starting a new season is one new row for the owner.
-- **U-Pick.** A Google Calendar appointment booking page, which offers only free times and creates the calendar event itself.
-- **Large events.** A Google Form whose responses notify the owner. Nothing is booked automatically.
-- **Calendar.** Two calendars. A public events calendar feeds the site. Bookings that carry customer names stay on a private one.
-- **Privacy.** The response sheet is never shared or published. Only counts leave it, through the script.
+- **CSA.** Two seasons, each with its own Google Form and its own spreadsheet, and the spreadsheet is the source of truth. The form fills the responses tab, where every filled row is one slot taken; the owner types a row for someone who signs up by phone and deletes a row when someone drops out. Cell A1 of a second tab holds the season's number of slots. The script reads those two numbers and nothing else. Slots are a number and not blank rows because Google Forms inserts a row for every response and never fills blank ones. A full season's form stays open unless the owner closes it; the site just stops showing its button.
+- **Mailing list.** A Google Form asks for a name and an email and sends them to a spreadsheet of its own, which the owner uses to build a group email list. No code: the script never opens either.
+- **Group events.** No form. The request arrives as a contact message through the script's `POST`. Nothing is booked automatically.
+- **Calendar.** Two calendars. The owner keeps one calendar just for public events, and putting an event on it is how she marks it public: the script reads that calendar only, by the ID in the Script Property `EVENTS_CALENDAR_ID`, and sends each event's title, times and location. Everything else stays on her own calendar. The public one does not have to be shared publicly for the script to read it, only for the optional `PUBLIC_CALENDAR_URL` fallback link.
+- **Privacy.** Neither spreadsheet is shared or published. Only two numbers per season leave the CSA ones, through the script.
 
 Status: the script's source is `apps-script/Code.gs`, with its manifest beside it, and that file is the record of what is deployed.
 
-- Written: the contact `POST`, and the CSA half. The CSA half is the `GET`, the sync that runs on each signup and on each change to the spreadsheet, and `setUpMockCsa`, which creates a test sign-up form and a spreadsheet with sample seasons in whichever Google account runs it. `tearDownCsa` disconnects them again.
-- Not written: events. A `GET` always returns an empty `events` list, so with `API_URL` set the calendar section shows its "nothing on the calendar" line.
-- The CSA half has been run only against stand-ins for Google's services, not yet in a Google account.
-- A `GET` that cannot build the whole status (the CSA is not set up, for one) answers with a line of plain text and not JSON. The site fails to parse it and shows its fallback, which is the intent: never return JSON of another shape.
+- Written: the contact `POST` and the whole `GET`, CSA and events. There is no set-up code. The forms, the spreadsheets, the events calendar and the Script Properties `CSA_SPRING_SHEET`, `CSA_SUMMER_SHEET` and `EVENTS_CALENDAR_ID` are made by hand, following the steps at the top of `Code.gs`.
+- While `EVENTS_CALENDAR_ID` is not set, a `GET` returns an empty `events` list and the calendar section shows its "nothing on the calendar" line.
+- The `GET` has been run only against stand-ins for Google's services, not yet in a Google account.
+- A `GET` that cannot build the whole status (a spreadsheet link is not set, for one) answers with a line of plain text and not JSON. The site fails to parse it and shows its fallback, which is the intent: never return JSON of another shape.
 - While `API_URL` is `null` the site shows sample data, marked as such on the page, and the contact form reports that it is not connected.
 
 Rules for this code:
 
-- Every value from the farm's Google account (the script URL, form links, calendar link) lives in `src/data/integrations.ts`. Never invent one; `null` means not set up.
+- Every value from the farm's Google account that the site is built with (the script URL, form links, calendar link) lives in `src/data/integrations.ts`. Never invent one; `null` means not set up.
 - The script takes a second or two to answer. Render the page at once and fill the live parts in after, and never leave a section blank if the request fails: fall back to a link.
 - Post to the script with a plain string body. Apps Script cannot answer a CORS preflight, and a JSON content type triggers one.
 - All-day events arrive as `YYYY-MM-DD` and timed events as full ISO timestamps. Format them through `src/lib/dates.ts`, which handles both in `America/Chicago`.
@@ -122,6 +123,6 @@ Three project agents live in `.claude/agents/`. Use them when Buck asks for one 
 | --- | --- |
 | `layout` | Checking and fixing how the page looks across phone, tablet and desktop sizes in both orientations, using rendered screenshots. |
 | `performance` | Measuring and improving load speed and runtime smoothness: bundle size, images, fonts, third-party embeds. |
-| `integration` | Building and changing the Google side: the Apps Script, the forms and sheets it reads, the calendar feed, and the booking page. |
+| `integration` | Building and changing the Google side: the Apps Script, the forms and sheets it reads, and the calendar feed. |
 
 Their work overlaps wherever Google content appears on the page: `integration` wires it up, `layout` checks it on a phone, and `performance` checks what it costs to load.
