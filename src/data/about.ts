@@ -14,7 +14,7 @@ export interface AboutPanel {
 export const ABOUT_PANELS: AboutPanel[] = [
   {
     title: "About Ashley",
-    text: "Welcome Home Farm is the culmination of a lifelong vision of Ashley Harris, owner and operator. She studied native fruit production for years and believes in bringing native food and the harvesting experience back home to her community. She has a BS in Biology and is a proud 2025 graduate of the University of Arkansas CAFF (Center for Arkansas Food and Farming) program. Ashley attributes her ability to open Welcome Home Farm to her grandmothers’ love of gardening, her local farming support network, and her patient, supportive spouse, Ethan along with their five incredible kids.",
+    text: "Welcome Home Farm was built by the body and heart of Ashley Harris. At age 15, she dreamed of owning a farm. She interned on farms and received a BS in Biology in 2009. She married and had five children, while continuing to garden extensively and dream. In 2025, she became a proud graduate of the University of Arkansas CAFF (Center for Arkansas Food and Farming) extension program. Her CAFF experiences gave her the support she needed to launch Welcome Home Farm. Ashley’s passion is reconnecting with the land’s native food and the act of harvesting. She hopes everyone feels welcomed to greater connection at the farm.",
     image: ashleyPortrait,
     alt: "Ashley Harris smiling while harvesting in the garden",
     imagePosition: "center 20%",
